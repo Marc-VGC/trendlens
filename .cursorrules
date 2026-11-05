@@ -1,0 +1,27 @@
+# TrendLens — Cursor rules
+# Full context: CLAUDE.md, spec.md, docs/03-architecture.md
+
+You are working on TrendLens: a Next.js 14 (App Router, TypeScript, src/) + Tailwind + Recharts app that turns plain-English questions into World Bank data reports using Claude via the Vercel AI SDK v7.
+
+Core principle
+- The LLM NEVER provides data or computes numbers. It (1) produces a query plan validated by zod and sanitized by src/lib/plan.ts and (2) writes a narrative from computed stats, which src/lib/verify.ts checks.
+
+Code style
+- TypeScript strict; prefer server components; "use client" only for interactivity (charts, forms).
+- Tailwind utilities only; mobile-first; `@/` import alias; zod 4 for runtime validation.
+
+Architecture rules
+- LLM calls live only in src/lib/ai.ts (generateText + Output.object).
+- Statistics live only in src/lib/stats.ts; number checks in src/lib/verify.ts; both pure and Vitest-tested.
+- World Bank access only through src/lib/worldbank.ts (retries + 24h cache). Build URLs only from sanitized plans.
+- Supabase only server-side via src/lib/db.ts ("server-only"); filter by Clerk userId for list/delete.
+- Clerk v6: `const { userId } = await auth()` from "@clerk/nextjs/server".
+
+Security
+- No hardcoded secrets; document env vars in .env.example.
+- Treat the user's question as untrusted input.
+- Only NEXT_PUBLIC_* variables may reach the browser.
+
+Workflow
+- Update spec.md when behaviour changes. Run `npm test && npm run typecheck && npm run lint` before committing.
+- Conventional commits.

@@ -6,7 +6,7 @@
 >
 > **No account needed to evaluate:** open **`/example`** (a full report) and **`/explore`** (live charts for any country). Sign up to ask your own questions.
 
-![CI](https://github.com/TODO-owner/trendlens/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/Marc-VGC/trendlens/actions/workflows/ci.yml/badge.svg)
 
 ---
 
@@ -50,7 +50,7 @@ Architecture: [docs/03-architecture.md](docs/03-architecture.md) · Spec: [spec.
 
 ## Run locally
 ```bash
-git clone https://github.com/TODO-owner/trendlens.git
+git clone https://github.com/Marc-VGC/trendlens.git
 cd trendlens
 npm install
 cp .env.example .env.local   # fill in values (below)

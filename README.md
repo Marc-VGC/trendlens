@@ -2,13 +2,22 @@
 
 **Ask a question about the world. Get real World Bank data, charts, statistics, and AI insights with every number verified.**
 
-> 🔗 **Live app:** `TODO: https://<your-project>.vercel.app` · 🎥 **Demo (2 min):** `TODO: link` · 📄 **Reflection:** [docs/05-reflection.md](docs/05-reflection.md)
+> 🔗 **Live app:** **https://trendlens-neon.vercel.app** · 🎥 **Demo (2 min):** `TODO: paste your video link` · 📄 **Reflection:** [docs/05-reflection.md](docs/05-reflection.md)
 >
-> **No account needed to evaluate:** open **`/example`** (a full report) and **`/explore`** (live charts for any country). Sign up to ask your own questions.
+> **No account needed to evaluate:** open [**/example**](https://trendlens-neon.vercel.app/example) (a full report) and [**/explore**](https://trendlens-neon.vercel.app/explore) (live charts for any country). Sign up to ask your own questions.
 
 ![CI](https://github.com/Marc-VGC/trendlens/actions/workflows/ci.yml/badge.svg)
 
 ---
+
+## Try it in 3 minutes (for reviewers)
+1. Open [**/example**](https://trendlens-neon.vercel.app/example): a full report (New Zealand vs Philippines vs World) with ✓ verified badges, charts, a stats table, sources and a CSV download. No account needed.
+2. Open [**/explore**](https://trendlens-neon.vercel.app/explore): add a country (e.g. *Australia*), switch the indicator, and change the years. Live World Bank data, no AI.
+3. Click **Ask a question** and sign up with email or Google. Clerk runs in development mode, so the sign-in form shows a small "Development mode" label. Then ask, for example:
+   - *"Compare inflation in New Zealand, Australia and the United States over the last 15 years"*
+   - *"How has life expectancy changed in Japan, India and Nigeria since 1990?"*
+   - *"Which grew faster since 2000: renewable energy share in Germany or China?"*
+4. The report takes about 15–30 seconds. Copy its share link and open it in an incognito window: shared reports are viewable without an account.
 
 ## The problem
 Students and analysts constantly need credible country comparisons (GDP growth, inflation, internet adoption, ageing, renewables) for papers and market-entry memos. Doing it by hand is slow: find the indicator, download, clean, chart, compute, write. Asking a chatbot is fast but **unreliable: the numbers can be invented** and the sources are vague. See [docs/01-idea-validation.md](docs/01-idea-validation.md).
@@ -43,7 +52,7 @@ Students and analysts constantly need credible country comparisons (GDP growth, 
 | Database | Supabase Postgres (saved reports) |
 | Auth | Clerk |
 | Deploy / CI | Vercel + GitHub Actions |
-| Monitoring | Vercel Analytics (custom `report_created`, `explore_used` events), Speed Insights, structured `[ask]` logs |
+| Monitoring | Vercel Analytics (custom `report_created`, `report_failed`, `explore_used` events), Speed Insights, structured `[ask]` logs |
 | Tests | Vitest (29 unit tests) |
 
 Architecture: [docs/03-architecture.md](docs/03-architecture.md) · Spec: [spec.md](spec.md) · PRD: [docs/02-prd.md](docs/02-prd.md)
@@ -99,21 +108,23 @@ npm run dev                  # http://localhost:3000
 - Annual, national-level indicators only; no forecasts or causal analysis.
 
 ## Roadmap (v2)
-See the GitHub issue *"v2: Correlation view + PDF brief export"*. Draft: [docs/06-v2-issue.md](docs/06-v2-issue.md).
+See the GitHub issue [*"v2: Correlation view + PDF brief export"*](https://github.com/Marc-VGC/trendlens/issues). Draft: [docs/06-v2-issue.md](docs/06-v2-issue.md).
 
 ## Assignment deliverables
-| Phase | Deliverable | File |
+| Phase | Deliverable | Where |
 |---|---|---|
-| 1 | 7-step idea validation | [docs/01-idea-validation.md](docs/01-idea-validation.md) |
+| 4 | Live app | https://trendlens-neon.vercel.app |
+| 1 | 7-step idea validation (with *why now*) | [docs/01-idea-validation.md](docs/01-idea-validation.md) |
 | 1 | 1-page PRD | [docs/02-prd.md](docs/02-prd.md) |
 | 2 | Architecture notes | [docs/03-architecture.md](docs/03-architecture.md) |
 | 2 | spec.md + revision history | [spec.md](spec.md) |
 | 2 | Agent rules | [CLAUDE.md](CLAUDE.md), [.cursorrules](.cursorrules) |
 | 3 | Unit tests | [src/lib/\_\_tests\_\_/](src/lib/__tests__) |
 | 4 | CI/CD | [.github/workflows/ci.yml](.github/workflows/ci.yml) |
-| 5 | Demo script | [docs/04-demo-script.md](docs/04-demo-script.md) |
+| 4 | Monitoring | Vercel Analytics + Speed Insights (enabled), custom events, `[ask]` function logs |
+| 5 | Demo (2 min) | `TODO: video link` · script: [docs/04-demo-script.md](docs/04-demo-script.md) |
 | 5 | Reflection | [docs/05-reflection.md](docs/05-reflection.md) |
-| 5 | v2 issue | [docs/06-v2-issue.md](docs/06-v2-issue.md) |
+| 5 | v2 issue | [GitHub issues](https://github.com/Marc-VGC/trendlens/issues) · draft: [docs/06-v2-issue.md](docs/06-v2-issue.md) |
 
 ---
 Data © World Bank, licensed CC BY 4.0. Built for AIM Graded Assignment 4.2 with AI-assisted coding (Claude Code).

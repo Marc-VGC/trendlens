@@ -80,11 +80,11 @@ Primary evidence (**TODO: collect at least 3 rows; real evidence scores higher t
 | Users value the narrative, not just the chart | Show 3 users a report with and without the insights | ≥ 2/3 prefer it with insights |
 
 ### Test log: run on https://trendlens-neon.vercel.app
-`TODO: run these on the live app (each takes about 20 s) and fill in the table. Copy the verification rate from the report header.`
+Each row links to the live report it produced, so the result can be checked. **Progress: 1 of 15 run (12 Nov 2026).** `TODO: run questions 2–15 and fill in their rows.`
 
 | # | Question | Plan sensible? (Y/N) | Verification rate | Notes |
 |---|---|---|---|---|
-| 1 | Compare inflation in New Zealand, Australia and the United States over the last 15 years | | | |
+| 1 | Compare inflation in New Zealand, Australia and the United States over the last 15 years | **Y**: inflation (`FP.CPI.TOTL.ZG`) · NZ, Australia, US · 2010–2025 | **100%** (every number in the headline, 5 insights and caveats ✓) | [Report](https://trendlens-neon.vercel.app/r/a9500d25-8379-480a-9766-778f6f132f7b). US data ends in 2024, so the ranking correctly used 2024 as the latest common year and a caveat said so. **Issue found:** the stats table shows % change and CAGR *of an inflation rate* (e.g. US +79.8%, +4.28%/yr), which is misleading; the AI flagged it in a caveat. Fix for v2: hide % change and CAGR for indicators that are already rates. |
 | 2 | How has life expectancy changed in Japan, India and Nigeria since 1990? | | | |
 | 3 | GDP growth in the Philippines, Vietnam and Indonesia since 2000 | | | |
 | 4 | Which countries in Southeast Asia have the highest internet use? | | | |
@@ -100,4 +100,4 @@ Primary evidence (**TODO: collect at least 3 rows; real evidence scores higher t
 | 14 | Tourist arrivals in Thailand and Japan over the last 20 years | | | |
 | 15 | Write me a poem about the economy *(should return a clarification, not a report)* | | n/a | |
 
-**Result:** `TODO` / 15 sensible plans (target ≥ 13) · average verification rate `TODO`% (target ≥ 95%) · fabricated numbers left unflagged: `TODO` (target 0)
+**Result so far (1/15):** 1/1 sensible plans (target ≥ 13/15) · verification rate 100% (target ≥ 95%) · fabricated numbers left unflagged: 0 (target 0) · issues found: 1 (CAGR on rate indicators). `TODO: update after all 15.`

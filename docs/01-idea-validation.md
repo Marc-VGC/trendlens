@@ -84,7 +84,7 @@ Each row links to the live report it produced, so the result can be checked. **P
 
 | # | Question | Plan sensible? (Y/N) | Verification rate | Notes |
 |---|---|---|---|---|
-| 1 | Compare inflation in New Zealand, Australia and the United States over the last 15 years | **Y**: inflation (`FP.CPI.TOTL.ZG`) · NZ, Australia, US · 2010–2025 | **100%** (every number in the headline, 5 insights and caveats ✓) | [Report](https://trendlens-neon.vercel.app/r/a9500d25-8379-480a-9766-778f6f132f7b). US data ends in 2024, so the ranking correctly used 2024 as the latest common year and a caveat said so. **Issue found:** the stats table shows % change and CAGR *of an inflation rate* (e.g. US +79.8%, +4.28%/yr), which is misleading; the AI flagged it in a caveat. Fix for v2: hide % change and CAGR for indicators that are already rates. |
+| 1 | Compare inflation in New Zealand, Australia and the United States over the last 15 years | **Y**: inflation (`FP.CPI.TOTL.ZG`) · NZ, Australia, US · 2010–2025 | **100%** (every number in the headline, 5 insights and caveats ✓) | [Report](https://trendlens-neon.vercel.app/r/a9500d25-8379-480a-9766-778f6f132f7b). US data ends in 2024, so the ranking correctly used 2024 as the latest common year and a caveat said so. **Issue found → fixed:** the stats table showed % change and CAGR *of an inflation rate* (e.g. US +79.8%, +4.28%/yr), which is misleading; the AI itself flagged it in a caveat. **Fixed the same day (spec v1.3):** rate indicators (inflation, GDP growth, population growth) no longer get % change or CAGR, the table explains why, and 3 unit tests cover it. `TODO: re-run question 1 after deploy and note the result.` |
 | 2 | How has life expectancy changed in Japan, India and Nigeria since 1990? | | | |
 | 3 | GDP growth in the Philippines, Vietnam and Indonesia since 2000 | | | |
 | 4 | Which countries in Southeast Asia have the highest internet use? | | | |
@@ -100,4 +100,4 @@ Each row links to the live report it produced, so the result can be checked. **P
 | 14 | Tourist arrivals in Thailand and Japan over the last 20 years | | | |
 | 15 | Write me a poem about the economy *(should return a clarification, not a report)* | | n/a | |
 
-**Result so far (1/15):** 1/1 sensible plans (target ≥ 13/15) · verification rate 100% (target ≥ 95%) · fabricated numbers left unflagged: 0 (target 0) · issues found: 1 (CAGR on rate indicators). `TODO: update after all 15.`
+**Result so far (1/15):** 1/1 sensible plans (target ≥ 13/15) · verification rate 100% (target ≥ 95%) · fabricated numbers left unflagged: 0 (target 0) · issues found: 1, fixed: 1 (CAGR on rate indicators). `TODO: update after all 15.`

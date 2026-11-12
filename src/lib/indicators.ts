@@ -21,14 +21,19 @@ export interface Indicator {
   category: Category;
   unit: Unit;
   decimals: number;
+  /**
+   * The indicator is itself an annual rate of change (e.g. inflation, GDP growth).
+   * Relative change and CAGR *of a rate* are misleading, so they are not computed.
+   */
+  changeRate?: boolean;
 }
 
 export const INDICATORS = [
   { code: "NY.GDP.MKTP.CD", label: "GDP (current US$)", short: "GDP", category: "Economy", unit: "US$", decimals: 0 },
-  { code: "NY.GDP.MKTP.KD.ZG", label: "GDP growth (annual %)", short: "GDP growth", category: "Economy", unit: "%", decimals: 1 },
+  { code: "NY.GDP.MKTP.KD.ZG", label: "GDP growth (annual %)", short: "GDP growth", category: "Economy", unit: "%", decimals: 1, changeRate: true },
   { code: "NY.GDP.PCAP.CD", label: "GDP per capita (current US$)", short: "GDP per capita", category: "Economy", unit: "US$", decimals: 0 },
   { code: "NY.GDP.PCAP.PP.CD", label: "GDP per capita, PPP (current international $)", short: "GDP per capita (PPP)", category: "Economy", unit: "int$", decimals: 0 },
-  { code: "FP.CPI.TOTL.ZG", label: "Inflation, consumer prices (annual %)", short: "Inflation", category: "Economy", unit: "%", decimals: 1 },
+  { code: "FP.CPI.TOTL.ZG", label: "Inflation, consumer prices (annual %)", short: "Inflation", category: "Economy", unit: "%", decimals: 1, changeRate: true },
   { code: "SL.UEM.TOTL.ZS", label: "Unemployment, total (% of labour force, modelled ILO)", short: "Unemployment", category: "Economy", unit: "%", decimals: 1 },
   { code: "GC.DOD.TOTL.GD.ZS", label: "Central government debt, total (% of GDP)", short: "Government debt", category: "Economy", unit: "%", decimals: 1 },
   { code: "NV.IND.MANF.ZS", label: "Manufacturing, value added (% of GDP)", short: "Manufacturing share", category: "Economy", unit: "%", decimals: 1 },
@@ -38,7 +43,7 @@ export const INDICATORS = [
   { code: "BX.TRF.PWKR.DT.GD.ZS", label: "Personal remittances received (% of GDP)", short: "Remittances", category: "Trade & investment", unit: "%", decimals: 1 },
   { code: "ST.INT.ARVL", label: "International tourism, number of arrivals", short: "Tourist arrivals", category: "Trade & investment", unit: "count", decimals: 0 },
   { code: "SP.POP.TOTL", label: "Population, total", short: "Population", category: "People", unit: "people", decimals: 0 },
-  { code: "SP.POP.GROW", label: "Population growth (annual %)", short: "Population growth", category: "People", unit: "%", decimals: 2 },
+  { code: "SP.POP.GROW", label: "Population growth (annual %)", short: "Population growth", category: "People", unit: "%", decimals: 2, changeRate: true },
   { code: "SP.URB.TOTL.IN.ZS", label: "Urban population (% of total)", short: "Urbanisation", category: "People", unit: "%", decimals: 1 },
   { code: "SP.POP.65UP.TO.ZS", label: "Population ages 65 and above (% of total)", short: "Aged 65+", category: "People", unit: "%", decimals: 1 },
   { code: "SP.DYN.TFRT.IN", label: "Fertility rate, total (births per woman)", short: "Fertility rate", category: "People", unit: "births", decimals: 2 },
@@ -66,6 +71,11 @@ const byCode = new Map<string, Indicator>(INDICATORS.map((i) => [i.code, i]));
 
 export function getIndicator(code: string): Indicator | undefined {
   return byCode.get(code);
+}
+
+/** True for indicators that are already annual rates of change. Pure. */
+export function isChangeRate(code: string): boolean {
+  return byCode.get(code)?.changeRate === true;
 }
 
 export function isIndicatorCode(code: string): code is IndicatorCode {

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isChangeRate } from "@/lib/indicators";
 import { computeStats } from "@/lib/stats";
 import { dataQuerySchema } from "@/lib/validation";
 import { fetchSeries } from "@/lib/worldbank";
@@ -16,7 +17,7 @@ export async function GET(req: Request) {
   try {
     const series = await fetchSeries(countries, indicator, start, end);
     return NextResponse.json(
-      { series, stats: computeStats(series, countries) },
+      { series, stats: computeStats(series, countries, { changeRate: isChangeRate(indicator) }) },
       { headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" } },
     );
   } catch (e) {

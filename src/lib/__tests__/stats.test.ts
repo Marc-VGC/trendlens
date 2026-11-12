@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { isChangeRate } from "../indicators";
+import { statsForReport } from "../report";
 import { compare, roundDeep, summarize } from "../stats";
 
 const pts = (pairs: [number, number | null][]) => pairs.map(([year, value]) => ({ year, value }));
@@ -57,6 +59,35 @@ describe("compare", () => {
 
   it("has no spread for a single country", () => {
     expect(compare(series, ["AAA"]).spreadLatest).toBeNull();
+  });
+});
+
+describe("rate-of-change indicators", () => {
+  it("flags only indicators that are already annual rates", () => {
+    expect(isChangeRate("FP.CPI.TOTL.ZG")).toBe(true); // inflation
+    expect(isChangeRate("NY.GDP.MKTP.KD.ZG")).toBe(true); // GDP growth
+    expect(isChangeRate("SP.POP.GROW")).toBe(true); // population growth
+    expect(isChangeRate("IT.NET.USER.ZS")).toBe(false); // a share, not a rate of change
+    expect(isChangeRate("NOT.A.CODE")).toBe(false);
+  });
+
+  it("skips % change and CAGR but keeps the change in points", () => {
+    const s = summarize(pts([[2010, 1.64], [2024, 2.95]]), { changeRate: true });
+    expect(s.change).toBeCloseTo(1.31, 2);
+    expect(s.pctChange).toBeNull();
+    expect(s.cagr).toBeNull();
+    expect(s.mean).toBeCloseTo(2.295, 3);
+  });
+
+  it("applies to report stats for inflation, not to other indicators", () => {
+    // Found in live testing: US inflation 1.64% -> 2.95% showed "+79.8%" and "+4.28%/yr".
+    const series = { USA: pts([[2010, 1.64], [2024, 2.95]]) };
+    const plan = { title: "t", countries: ["USA"], startYear: 2010, endYear: 2024 };
+    const inflation = statsForReport({ ...plan, indicators: ["FP.CPI.TOTL.ZG"] }, { "FP.CPI.TOTL.ZG": series });
+    expect(inflation["FP.CPI.TOTL.ZG"].byCountry.USA.cagr).toBeNull();
+    expect(inflation["FP.CPI.TOTL.ZG"].byCountry.USA.pctChange).toBeNull();
+    const internet = statsForReport({ ...plan, indicators: ["IT.NET.USER.ZS"] }, { "IT.NET.USER.ZS": series });
+    expect(internet["IT.NET.USER.ZS"].byCountry.USA.cagr).toBeCloseTo(4.28, 2);
   });
 });
 

@@ -30,7 +30,7 @@ Strict rules:
 - Use ONLY numbers that appear in the JSON (you may round them, e.g. 93.33 -> 93.3). Never compute new numbers, differences or ratios yourself.
 - Write counts in words ("three countries"), not digits.
 - Always say which year a value refers to. Use the comparison.latestCommonYear for rankings.
-- In the stats, "change" is in the indicator's own units (percentage points for % indicators), "pctChange" is relative change in %, and "cagr" is compound annual growth in % per year.
+- In the stats, "change" is in the indicator's own units (percentage points for % indicators), "pctChange" is relative change in %, and "cagr" is compound annual growth in % per year. For indicators that are already annual rates (inflation, GDP growth, population growth) "pctChange" and "cagr" are null: describe those in percentage points, never as relative or compound growth.
 - Describe patterns; do not claim causes or make forecasts.
 - Mention notable data gaps (null values, missing countries) in caveats.
 - Use country names, not codes.`;

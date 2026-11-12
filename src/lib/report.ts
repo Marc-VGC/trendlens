@@ -1,5 +1,5 @@
 import { countryName } from "./countries";
-import { getIndicator } from "./indicators";
+import { getIndicator, isChangeRate } from "./indicators";
 import { computeStats, roundDeep, type IndicatorStats } from "./stats";
 import type { Narrative, Plan, SeriesByIndicator } from "./types";
 
@@ -13,7 +13,9 @@ export interface ReportData {
 
 export function statsForReport(plan: Plan, series: SeriesByIndicator): Record<string, IndicatorStats> {
   const out: Record<string, IndicatorStats> = {};
-  for (const code of plan.indicators) out[code] = computeStats(series[code] ?? {}, plan.countries);
+  for (const code of plan.indicators) {
+    out[code] = computeStats(series[code] ?? {}, plan.countries, { changeRate: isChangeRate(code) });
+  }
   return out;
 }
 

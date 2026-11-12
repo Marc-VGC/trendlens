@@ -1,4 +1,4 @@
-# spec.md — TrendLens v1.2
+# spec.md — TrendLens v1.3
 
 ## 1. Purpose and AI capability
 Answer plain-English questions about development and economic trends across countries with **real World Bank data**, deterministic statistics, charts, and an AI-written narrative whose numbers are verified.
@@ -53,6 +53,7 @@ AI output (zod): `{ title, countries: string[], indicators: IndicatorCode[], sta
 
 ### 3.5 Statistics (`src/lib/stats.ts`), pure
 Per country × indicator (`summarize`): `first`, `last` (first/last non-null points), `change`, `pctChange`, `cagr` (only if both values > 0 and span ≥ 1 year), `min`, `max` (with years), `mean`, `points`.
+**Rate-of-change indicators** (`changeRate: true` in the catalog: inflation, GDP growth, population growth) are already annual rates, so `pctChange` and `cagr` are `null` for them; the stats table hides those two columns and explains why, and the analyst describes them in percentage points.
 Per indicator (`compare`): `latestCommonYear` (latest year where every country has a value, else `null`), `ranking` at that year (descending), and `spread` (max − min) at the first and latest common years.
 
 ### 3.6 Narrative + verification (`src/lib/verify.ts`)
@@ -93,7 +94,7 @@ Mobile-first (no horizontal scroll at 375px); only `NEXT_PUBLIC_*` vars reach th
 Each criterion is testable; **[unit]** = covered by Vitest in CI, **[live]** = checked on the deployed app.
 
 1. **[unit]** `sanitizePlan` keeps only known ISO3 codes (max 6) and catalog indicators (max 3), defaults to the last 20 years, clamps and swaps years, and returns the clarification when nothing valid remains (`plan.test.ts`).
-2. **[unit]** `summarize` returns correct first/last, change, % change and CAGR; CAGR is `null` when a value ≤ 0 or the span < 1 year; gaps are ignored (`stats.test.ts`).
+2. **[unit]** `summarize` returns correct first/last, change, % change and CAGR; CAGR is `null` when a value ≤ 0 or the span < 1 year; gaps are ignored; % change and CAGR are `null` for rate-of-change indicators such as inflation (`stats.test.ts`).
 3. **[unit]** `compare` ranks at the latest year where every country has data and reports the spread (`stats.test.ts`).
 4. **[unit]** The verifier accepts numbers within 1% / 0.05 of a stat (including `%`, thousands separators and million/billion scaling) and **flags invented numbers**, including small ones like *"5%"* and years outside the plan range (`verify.test.ts`).
 5. **[unit]** `parseWorldBankResponse` sorts by year, keeps `null` gaps and throws on WB error payloads (`worldbank.test.ts`).
@@ -107,11 +108,14 @@ Each criterion is testable; **[unit]** = covered by Vitest in CI, **[live]** = c
 13. **[CI]** Every push to `main` runs lint, typecheck, tests, build and a secret scan, and the run is green.
 
 ## 9. Tests (Vitest)
-`stats.test.ts`, `verify.test.ts`, `plan.test.ts`, `worldbank.test.ts`, and `example.test.ts` (the bundled example verifies at 100%, CSV export, input validation). 29 tests, run in CI.
+`stats.test.ts`, `verify.test.ts`, `plan.test.ts`, `worldbank.test.ts`, and `example.test.ts` (the bundled example verifies at 100%, CSV export, input validation). 32 tests, run in CI.
 
 ---
 
 ## Revision history
+
+### v1.3: after live testing
+1. **"The stats table shows a CAGR of inflation."** Found in the live test log (question 1): US inflation rising from 1.64% to 2.95% was shown as "+79.8%" and "+4.28%/yr", which is misleading for a rate. Added `changeRate` to the catalog; `pctChange` and `cagr` are now `null` for rate indicators, the table hides those columns with a note, and the analyst prompt says to use percentage points. 3 new unit tests.
 
 ### v1.2: after deployment review
 1. **"Graders score inputs, outputs and acceptance criteria explicitly."** Added §1a (inputs/outputs per stage), §7 (edge cases and error handling) and §8 (13 testable acceptance criteria, each tagged unit / live / CI).

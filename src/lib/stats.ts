@@ -33,8 +33,13 @@ export interface IndicatorStats {
   comparison: Comparison;
 }
 
+export interface SummaryOptions {
+  /** The series is itself a rate of change: skip pctChange and CAGR (see indicators.ts). */
+  changeRate?: boolean;
+}
+
 /** Summarize one series. Pure; see spec.md §3.5. */
-export function summarize(points: Point[]): SeriesSummary {
+export function summarize(points: Point[], opts: SummaryOptions = {}): SeriesSummary {
   const pts = nonNull(points).sort((a, b) => a.year - b.year);
   if (!pts.length) {
     return { first: null, last: null, change: null, pctChange: null, cagr: null, min: null, max: null, mean: null, points: 0 };
@@ -42,10 +47,12 @@ export function summarize(points: Point[]): SeriesSummary {
   const first = pts[0];
   const last = pts[pts.length - 1];
   const change = last.value - first.value;
-  const pctChange = first.value !== 0 ? (change / Math.abs(first.value)) * 100 : null;
   const span = last.year - first.year;
+  const pctChange = !opts.changeRate && first.value !== 0 ? (change / Math.abs(first.value)) * 100 : null;
   const cagr =
-    span >= 1 && first.value > 0 && last.value > 0 ? (Math.pow(last.value / first.value, 1 / span) - 1) * 100 : null;
+    !opts.changeRate && span >= 1 && first.value > 0 && last.value > 0
+      ? (Math.pow(last.value / first.value, 1 / span) - 1) * 100
+      : null;
   let min = pts[0];
   let max = pts[0];
   for (const p of pts) {
@@ -87,9 +94,9 @@ export function compare(series: CountrySeries, countries: string[]): Comparison 
   return { latestCommonYear, firstCommonYear, ranking, spreadFirst: spreadAt(firstCommonYear), spreadLatest: spreadAt(latestCommonYear) };
 }
 
-export function computeStats(series: CountrySeries, countries: string[]): IndicatorStats {
+export function computeStats(series: CountrySeries, countries: string[], opts: SummaryOptions = {}): IndicatorStats {
   const byCountry: Record<string, SeriesSummary> = {};
-  for (const c of countries) byCountry[c] = summarize(series[c] ?? []);
+  for (const c of countries) byCountry[c] = summarize(series[c] ?? [], opts);
   return { byCountry, comparison: compare(series, countries) };
 }
 

@@ -2,7 +2,7 @@
 
 **Ask a question about the world. Get real World Bank data, charts, statistics, and AI insights with every number verified.**
 
-> 🔗 **Live app:** **https://trendlens-neon.vercel.app** · 🎥 **Demo (2 min):** `TODO: paste your video link` · 📄 **Reflection:** [docs/05-reflection.md](docs/05-reflection.md)
+> 🔗 **Live app:** **https://trendlens-neon.vercel.app** · 🎥 **Demo (2 min):** [watch on Google Drive](https://drive.google.com/file/d/167Z8AonDH-y4N9NSaKF3BjyNwjmdZ95D/view?usp=sharing) · 📄 **Reflection:** [docs/05-reflection.md](docs/05-reflection.md)
 >
 > **No account needed to evaluate:** open [**/example**](https://trendlens-neon.vercel.app/example) (a full report) and [**/explore**](https://trendlens-neon.vercel.app/explore) (live charts for any country). Sign up to ask your own questions.
 
@@ -102,6 +102,12 @@ npm run dev                  # http://localhost:3000
 - Per-user daily AI quota; Explore and report viewing cost nothing
 - RLS blocks the anon key; list/delete scoped to the Clerk user; security headers
 
+## Tested on the live app
+15 real questions were run on the deployed app ([full test log with links to every report](docs/01-idea-validation.md#test-log-run-on-httpstrendlens-neonvercelapp)):
+- **15/15** sensible query plans, including an off-topic question that was correctly refused
+- **97.7%** of AI-written numbers verified on the first pass, with no invented number found
+- **2 issues found → fixed → re-tested:** a misleading CAGR shown for rate indicators like inflation ([spec v1.3](spec.md#v13-after-live-testing)), and false alarms on numbers from indicator names such as *65+* and *under-5* ([spec v1.4](spec.md#v14-after-the-full-15-question-test-log)). After both fixes, all 14 reports verify at 100%.
+
 ## Limitations
 - World Bank data lags by 1–2 years and is sometimes revised (the example report shows one such revision in its caveats).
 - The verifier checks that numbers *exist in the data*, not that every sentence is a fair interpretation.
@@ -122,7 +128,7 @@ See the GitHub issue [*"v2: Correlation view + PDF brief export"*](https://githu
 | 3 | Unit tests | [src/lib/\_\_tests\_\_/](src/lib/__tests__) |
 | 4 | CI/CD | [.github/workflows/ci.yml](.github/workflows/ci.yml) |
 | 4 | Monitoring | Vercel Analytics + Speed Insights (enabled), custom events, `[ask]` function logs |
-| 5 | Demo (2 min) | `TODO: video link` · script: [docs/04-demo-script.md](docs/04-demo-script.md) |
+| 5 | Demo (2 min) | [Video on Google Drive](https://drive.google.com/file/d/167Z8AonDH-y4N9NSaKF3BjyNwjmdZ95D/view?usp=sharing) · script: [docs/04-demo-script.md](docs/04-demo-script.md) |
 | 5 | Reflection | [docs/05-reflection.md](docs/05-reflection.md) |
 | 5 | v2 issue | [GitHub issues](https://github.com/Marc-VGC/trendlens/issues) · draft: [docs/06-v2-issue.md](docs/06-v2-issue.md) |
 

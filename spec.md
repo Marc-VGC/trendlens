@@ -1,4 +1,4 @@
-# spec.md — TrendLens v1.3
+# spec.md — TrendLens v1.4
 
 ## 1. Purpose and AI capability
 Answer plain-English questions about development and economic trends across countries with **real World Bank data**, deterministic statistics, charts, and an AI-written narrative whose numbers are verified.
@@ -60,6 +60,7 @@ Per indicator (`compare`): `latestCommonYear` (latest year where every country h
 AI output (zod): `{ headline: string, insights: string[] (3–5), caveats: string[] (0–3) }`.
 `extractNumbers(text)` finds numbers (commas, decimals, negatives, `%`, and `k/thousand/million/billion/trillion` suffixes). Four-digit integers 1960–2100 are treated as years and must be in the plan's range.
 `verifyText(text, allowed)` → `{ verified: boolean, unverified: string[] }`. A number verifies if it is within 1% relative or 0.05 absolute of an allowed value, after optional scaling (÷1e3, ÷1e6, ÷1e9, ÷1e12).
+`labelNumbers(facts)` collects numbers that are part of an indicator's name or unit ("65" in *ages 65 and above*, "5" and "1,000" in *under-5 … per 1,000 live births*, "15" in *females 15+*). These also verify, **except when the text writes them as a percentage**, so an invented "65%" is still flagged.
 `allowedNumbers(stats)` collects every stat value (and absolute values, since "fell by 2.1" mentions a negative change).
 Report-level **verification rate** = verified numbers / all numbers.
 
@@ -96,7 +97,7 @@ Each criterion is testable; **[unit]** = covered by Vitest in CI, **[live]** = c
 1. **[unit]** `sanitizePlan` keeps only known ISO3 codes (max 6) and catalog indicators (max 3), defaults to the last 20 years, clamps and swaps years, and returns the clarification when nothing valid remains (`plan.test.ts`).
 2. **[unit]** `summarize` returns correct first/last, change, % change and CAGR; CAGR is `null` when a value ≤ 0 or the span < 1 year; gaps are ignored; % change and CAGR are `null` for rate-of-change indicators such as inflation (`stats.test.ts`).
 3. **[unit]** `compare` ranks at the latest year where every country has data and reports the spread (`stats.test.ts`).
-4. **[unit]** The verifier accepts numbers within 1% / 0.05 of a stat (including `%`, thousands separators and million/billion scaling) and **flags invented numbers**, including small ones like *"5%"* and years outside the plan range (`verify.test.ts`).
+4. **[unit]** The verifier accepts numbers within 1% / 0.05 of a stat (including `%`, thousands separators and million/billion scaling) and **flags invented numbers**, including small ones like *"5%"* and years outside the plan range; numbers from the indicator's name (*under-5*, *per 1,000*, *65+*) verify unless written as a percentage (`verify.test.ts`).
 5. **[unit]** `parseWorldBankResponse` sorts by year, keeps `null` gaps and throws on WB error payloads (`worldbank.test.ts`).
 6. **[unit]** The bundled example report verifies at 100%; CSV output quotes commas; the question and Explore query validators reject bad input (`example.test.ts`).
 7. **[live]** `/`, `/example` and `/explore` load in an incognito window with no account; no horizontal scroll at 375 px.
@@ -108,11 +109,14 @@ Each criterion is testable; **[unit]** = covered by Vitest in CI, **[live]** = c
 13. **[CI]** Every push to `main` runs lint, typecheck, tests, build and a secret scan, and the run is green.
 
 ## 9. Tests (Vitest)
-`stats.test.ts`, `verify.test.ts`, `plan.test.ts`, `worldbank.test.ts`, and `example.test.ts` (the bundled example verifies at 100%, CSV export, input validation). 32 tests, run in CI.
+`stats.test.ts`, `verify.test.ts`, `plan.test.ts`, `worldbank.test.ts`, and `example.test.ts` (the bundled example verifies at 100%, CSV export, input validation). 36 tests, run in CI.
 
 ---
 
 ## Revision history
+
+### v1.4: after the full 15-question test log
+1. **"The verifier flags numbers that are part of the indicator's name."** Found in test-log questions 6, 11 and 12: "65" (*aged 65+*), "5" and "1,000" (*under-5 mortality per 1,000 live births*) and "15" (*women 15+*) were marked ⚠, pulling those reports to 89%, 82% and 97%. Added `labelNumbers`: numbers from an indicator's label or unit now verify, but never as percentages. 4 new unit tests use the sentences from those reports.
 
 ### v1.3: after live testing
 1. **"The stats table shows a CAGR of inflation."** Found in the live test log (question 1): US inflation rising from 1.64% to 2.95% was shown as "+79.8%" and "+4.28%/yr", which is misleading for a rate. Added `changeRate` to the catalog; `pctChange` and `cagr` are now `null` for rate indicators, the table hides those columns with a note, and the analyst prompt says to use percentage points. 3 new unit tests.

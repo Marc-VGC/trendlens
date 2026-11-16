@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { allowedNumbers, extractNumbers, verifyNarrative, verifyText } from "../verify";
+import { analystInput, statsForReport } from "../report";
+import { allowedNumbers, extractNumbers, labelNumbers, verifyNarrative, verifyText } from "../verify";
 
 const years = { start: 2005, end: 2024 };
 
@@ -53,5 +54,46 @@ describe("verifyNarrative", () => {
 
   it("returns a null rate when there are no numbers", () => {
     expect(verifyNarrative({ headline: "Mixed picture", insights: [], caveats: [] }, {}, years).rate).toBeNull();
+  });
+});
+
+describe("numbers from the indicator name", () => {
+  // Found in live testing (questions 6, 11, 12): "65", "5", "1,000" and "15" come from the indicator
+  // names, not from the data, and were wrongly flagged as unverified.
+  const facts = (code: string, values: [number, number][]) => {
+    const plan = { title: "t", countries: ["SSF"], indicators: [code], startYear: 2006, endYear: 2024 };
+    const series = { [code]: { SSF: values.map(([year, value]) => ({ year, value })) } };
+    return analystInput(plan, statsForReport(plan, series));
+  };
+  const range = { start: 2006, end: 2024 };
+
+  it("collects numbers from labels and units only", () => {
+    const f = facts("SH.DYN.MORT", [[2006, 114], [2024, 71.2]]);
+    expect(labelNumbers(f)).toEqual(expect.arrayContaining([5, 1000]));
+    expect(labelNumbers({ code: "SP.POP.65UP.TO.ZS", note: "65" })).toEqual([]);
+  });
+
+  it("verifies under-5 and per 1,000 in a mortality report", () => {
+    const f = facts("SH.DYN.MORT", [[2006, 114], [2024, 71.2]]);
+    const r = verifyNarrative(
+      { headline: "Under-5 mortality fell from 114 to 71.2 deaths per 1,000 live births between 2006 and 2024.", insights: [], caveats: [] },
+      f,
+      range,
+    );
+    expect(r.headline.unverified).toEqual([]);
+    expect(r.rate).toBe(100);
+  });
+
+  it("verifies 65 in an ageing report and 15 in a labour report", () => {
+    const ageing = facts("SP.POP.65UP.TO.ZS", [[2006, 9.4], [2024, 20.3]]);
+    expect(verifyNarrative({ headline: "The share aged 65 and above rose to 20.3%.", insights: [], caveats: [] }, ageing, range).rate).toBe(100);
+    const labour = facts("SL.TLF.CACT.FE.ZS", [[2006, 29.2], [2024, 38.7]]);
+    expect(verifyNarrative({ headline: "Participation covers women aged 15 and over.", insights: [], caveats: [] }, labour, range).rate).toBe(100);
+  });
+
+  it("still flags a label number written as a percentage or an invented value", () => {
+    const ageing = facts("SP.POP.65UP.TO.ZS", [[2006, 9.4], [2024, 20.3]]);
+    const r = verifyNarrative({ headline: "65% of people are older, up from 12.5.", insights: [], caveats: [] }, ageing, range);
+    expect(r.headline.unverified).toEqual(["65%", "12.5"]);
   });
 });

@@ -53,7 +53,7 @@ Students and analysts constantly need credible country comparisons (GDP growth, 
 | Auth | Clerk |
 | Deploy / CI | Vercel + GitHub Actions |
 | Monitoring | Vercel Analytics (custom `report_created`, `report_failed`, `explore_used` events), Speed Insights, structured `[ask]` logs |
-| Tests | Vitest (32 unit tests) |
+| Tests | Vitest (36 unit tests) |
 
 Architecture: [docs/03-architecture.md](docs/03-architecture.md) · Spec: [spec.md](spec.md) · PRD: [docs/02-prd.md](docs/02-prd.md)
 

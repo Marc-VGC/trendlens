@@ -22,6 +22,26 @@ Generic AI chatbots answer in seconds, but they **make up or misremember numbers
 | **Secondary** | Junior analysts and consultants preparing country briefs; lecturers preparing teaching examples |
 | **Not the user (v1)** | Professional economists who need econometrics, forecasts or high-frequency data |
 
+### Hypothetical personas (not yet validated)
+> **These are illustrative personas, not interview results.** They describe who I expect the users to be and what I expect they need. Nothing below was said by a real person. The real evidence is the live test log in Step 7; interviews to confirm or reject these assumptions are still to do (Steps 3 and 6).
+
+| | Priya: market research analyst | Daniel: economics graduate student | Ana: financial journalist |
+|---|---|---|---|
+| **Job to be done** | Country comparisons for client decks and market-entry memos | Data for papers and exploratory research before deeper analysis | Quick, citable figures for articles on deadline |
+| **Assumed current workflow** | Statista and OECD portals, then Excel | World Bank DataBank → several CSVs → clean in Excel → chart | Trading Economics and IMF pages, compared by hand |
+| **Assumed time per comparison** | About 2 hours | Several hours, in pieces | 30–60 minutes |
+| **Assumed main pain** | Doesn't trust chatbot numbers, so ends up searching portals anyway | Downloading and cleaning several files for one chart | A chatbot figure with no source can't be published |
+| **What TrendLens would need to offer** | Fast, sourced data; CSV and chart export for slides | The raw data (CSV) to do their own analysis; the written insights matter less | Written insights as a first draft; clickable sources |
+| **Assumed willingness to pay** | Team licence, about US$20–30/month | Wouldn't pay personally; might use a library or student tier (about US$10/month) | About US$15/month personally |
+
+**Hypotheses to test in real interviews** (each maps to a question in the interview guide):
+1. Country comparisons take these users **1+ hours** today. *(Step 3)*
+2. Users **don't trust chatbot numbers** without a source. *(Step 3, plus the chatbot fact-check)*
+3. The **✓ verified badges and source links** increase trust. *(Step 6)*
+4. The **written insights are valued** by professionals but less by students, who want to write their own analysis. *(Step 7, assumption 3)*
+5. **Professionals or teams would pay** about US$10–30/month; students would not pay personally. *(Step 6)*
+6. The most-wanted next features are **chart export (PNG/PowerPoint)**, **more chart controls** (e.g. bar charts, nominal vs real GDP) and **adjustable insight style**. *(Input for the v2 issue)*
+
 ### Why now
 1. **AI can finally plan, not just chat.** Current LLMs return schema-constrained structured output (JSON that matches a schema) reliably. That makes it practical to turn a plain-English question into a query plan that code can check against a catalog, which wasn't dependable a few model generations ago.
 2. **Students already ask chatbots first.** Generative AI is now a default research tool for students, so unverified, invented statistics end up in papers and memos.

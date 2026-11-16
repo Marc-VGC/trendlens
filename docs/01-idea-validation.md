@@ -80,24 +80,32 @@ Primary evidence (**TODO: collect at least 3 rows; real evidence scores higher t
 | Users value the narrative, not just the chart | Show 3 users a report with and without the insights | ≥ 2/3 prefer it with insights |
 
 ### Test log: run on https://trendlens-neon.vercel.app
-Each row links to the live report it produced, so the result can be checked. **Progress: 1 of 15 run (12 Nov 2026).** `TODO: run questions 2–15 and fill in their rows.`
+Each row links to the live report it produced, so the result can be checked. **All 15 run on 12–16 Nov 2026.**
 
 | # | Question | Plan sensible? (Y/N) | Verification rate | Notes |
 |---|---|---|---|---|
 | 1 | Compare inflation in New Zealand, Australia and the United States over the last 15 years | **Y**: inflation (`FP.CPI.TOTL.ZG`) · NZ, Australia, US · 2010–2025 | **100%** (every number in the headline, 5 insights and caveats ✓) | [Original report](https://trendlens-neon.vercel.app/r/a9500d25-8379-480a-9766-778f6f132f7b) · [re-test after fix](https://trendlens-neon.vercel.app/r/53b94b4d-e2c4-467c-ad9b-7386634c811f). US data ends in 2024, so the ranking correctly used 2024 as the latest common year and a caveat said so. **Issue found → fixed:** the stats table showed % change and CAGR *of an inflation rate* (e.g. US +79.8%, +4.28%/yr), which is misleading; the AI itself flagged it in a caveat. **Fixed the same day (spec v1.3):** rate indicators (inflation, GDP growth, population growth) no longer get % change or CAGR, the table explains why, and 3 unit tests cover it. **Re-tested on the live app:** same plan, 100% verified (8 of 8 checked sentences ✓), the table shows First / Latest / Change only, and the AI now writes changes in percentage points (*"US inflation rose by 1.31 percentage points"*). The original report now shows 98%, because its caveat quotes a "79.84%" figure the app no longer computes; the verifier correctly flags it. |
-| 2 | How has life expectancy changed in Japan, India and Nigeria since 1990? | | | |
-| 3 | GDP growth in the Philippines, Vietnam and Indonesia since 2000 | | | |
-| 4 | Which countries in Southeast Asia have the highest internet use? | | | |
-| 5 | Renewable energy share in Germany vs China since 2000 | | | |
-| 6 | Youth and ageing: share of people 65+ in Japan, Italy and South Korea | | | |
-| 7 | Unemployment in Spain, Greece and Portugal after 2008 | | | |
-| 8 | Government debt in Japan, the US and the UK | | | |
-| 9 | Remittances as a share of GDP in the Philippines, Mexico and Nepal | | | |
-| 10 | CO2 per person in Australia, New Zealand and the world | | | |
-| 11 | Child mortality in Sub-Saharan Africa vs South Asia | | | |
-| 12 | Female labour force participation in India, Bangladesh and Pakistan | | | |
-| 13 | How has access to electricity changed in Kenya and Ethiopia? | | | |
-| 14 | Tourist arrivals in Thailand and Japan over the last 20 years | | | |
-| 15 | Write me a poem about the economy *(should return a clarification, not a report)* | | n/a | |
+| 2 | How has life expectancy changed in Japan, India and Nigeria since 1990? | **Y**: life expectancy · Japan, India, Nigeria · 1990–2025 | **100%** | [Report](https://trendlens-neon.vercel.app/r/619c5652-ed43-4d96-a55c-3a162056b366). Data end in 2024; the AI said so in a caveat. Correctly noted Nigeria in 2024 is still below India in 1990. |
+| 3 | GDP growth in the Philippines, Vietnam and Indonesia since 2000 | **Y**: GDP growth · Philippines, Viet Nam, Indonesia · 2000–2025 | **100%** | [Report](https://trendlens-neon.vercel.app/r/138841e6-1a70-40a0-aafc-82d33743b575). Confirms the rate fix: changes in percentage points, no CAGR of a growth rate. Picked up the 2020 contractions (Philippines −9.52%). |
+| 4 | Which countries in Southeast Asia have the highest internet use? | **Y**: internet users · 6 countries (Singapore, Malaysia, Thailand, Viet Nam, Philippines, Indonesia) · 2006–2025 | **100%** | [Report](https://trendlens-neon.vercel.app/r/81abcc21-fc7a-462c-ad39-e14cb998c820). Hit the 6-country cap; the AI listed the countries left out (Brunei, Cambodia, Laos, Myanmar, Timor-Leste) as a caveat. |
+| 5 | Renewable energy share in Germany vs China since 2000 | **Y**: renewable share · Germany, China · 2000–2025 | **100%** | [Report](https://trendlens-neon.vercel.app/r/392900f3-afcf-4687-8dd0-f659ddabb020). Data end in 2021 for both; flagged in a caveat. One caveat suggests a possible reason (traditional biomass), framed as "may", which is borderline against the no-causes rule. |
+| 6 | Youth and ageing: share of people 65+ in Japan, Italy and South Korea | **Y**: population 65+ · Japan, Italy, South Korea · 2006–2025 | **89%** | [Report](https://trendlens-neon.vercel.app/r/07aeee77-bff2-423e-a2e1-38c672dd3dae). **Issue 2 (false alarm):** "65" flagged ⚠ in 4 sentences, but it is part of the indicator name (*aged 65+*), not an invented number. The AI noted that "youth" isn't covered by the data. |
+| 7 | Unemployment in Spain, Greece and Portugal after 2008 | **Y**: unemployment · Spain, Greece, Portugal · 2008–2025 | **100%** | [Report](https://trendlens-neon.vercel.app/r/f5213bdd-e476-4c1a-8241-dc647b597a7e). Found the shared 2013 peak (Greece 27.7%). |
+| 8 | Government debt in Japan, the US and the UK | **Y**: central government debt · Japan, US, UK · 2006–2025 | **100%** | [Report](https://trendlens-neon.vercel.app/r/77a019d2-4f2a-4492-b9af-eb2879cc5a38). **Data gap handled:** the World Bank has no data for Japan on this indicator; the table shows n/a, no ranking is forced, and the AI says so instead of inventing a figure. |
+| 9 | Remittances as a share of GDP in the Philippines, Mexico and Nepal | **Y**: remittances · Philippines, Mexico, Nepal · 2006–2025 | **100%** | [Report](https://trendlens-neon.vercel.app/r/839d59ac-3957-442f-84f2-090726913b96). Nepal 16.1% → 32.3% of GDP; Philippines at a period low. |
+| 10 | CO2 per person in Australia, New Zealand and the world | **Y**: CO2 per capita · Australia, NZ, World · 2006–2025 | **100%** | [Report](https://trendlens-neon.vercel.app/r/3305c17c-e000-48c1-958b-8ddb95f0bb0d). World aggregate used as a benchmark, drawn as a dashed line. Caveats on LULUCF and methane are relevant for NZ. |
+| 11 | Child mortality in Sub-Saharan Africa vs South Asia | **Y**: under-5 mortality · Sub-Saharan Africa, South Asia (regional aggregates) · 2006–2025 | **82%** | [Report](https://trendlens-neon.vercel.app/r/d46102f1-88b6-4524-bebe-f1b5fd66ddbe). **Issue 2 again:** "5" (*under-5*) and "1,000" (*per 1,000 live births*) flagged ⚠ in 5 sentences; both come from the indicator name. Every data value verified. |
+| 12 | Female labour force participation in India, Bangladesh and Pakistan | **Y**: female labour force participation · India, Bangladesh, Pakistan · 2006–2025 | **97%** | [Report](https://trendlens-neon.vercel.app/r/714f6c84-ead9-428c-a123-3e7fe7df9e13). **Issue 2 again:** "15" (*women aged 15+*) flagged ⚠ in one caveat. |
+| 13 | How has access to electricity changed in Kenya and Ethiopia? | **Y**: access to electricity · Kenya, Ethiopia · 2006–2025 | **100%** | [Report](https://trendlens-neon.vercel.app/r/613a7729-0e06-47ff-8e47-b54d1c8cbeb8). Spotted Kenya's 2010 dip and cautioned it may be a survey-method change. |
+| 14 | Tourist arrivals in Thailand and Japan over the last 20 years | **Y**: tourist arrivals · Thailand, Japan · 2005–2025 | **100%** | [Report](https://trendlens-neon.vercel.app/r/68b79dca-4653-443d-af7e-0525e6923756). Data end in 2019 (Thailand) and 2020 (Japan); the AI ranked at 2019 and warned that Japan's −38.8% reflects one COVID year, not a trend. |
+| 15 | Write me a poem about the economy *(should return a clarification, not a report)* | **Y**: no report; clarification shown | n/a | Message: *"I can't write poems, but I can build a data report on economic indicators. Try asking something like 'How has GDP growth and inflation changed in the USA vs China since 2000?'"* No data fetched, no report saved. |
 
-**Result so far (1/15):** 1/1 sensible plans (target ≥ 13/15) · verification rate 100% (target ≥ 95%) · fabricated numbers left unflagged: 0 (target 0) · issues found: 1, fixed and re-tested: 1 (CAGR on rate indicators). `TODO: update after all 15.`
+**Result:**
+| Measure | Target | Result |
+|---|---|---|
+| Sensible plans | ≥ 13/15 | **15/15** (14 reports + the off-topic question correctly refused) |
+| Average verification rate | ≥ 95% | **97.7%** across 14 reports; 11 of 14 at 100% |
+| Invented numbers left unflagged | 0 | **0 found** (data values spot-checked against each report's stats table) |
+| Issues found | | **2**: (1) % change / CAGR shown for rate indicators → fixed and re-tested (row 1); (2) the verifier flags numbers that are part of the indicator's name (*65+*, *under-5*, *per 1,000*, *15+*), which pulled 3 reports below 100% (rows 6, 11, 12). Every ⚠ in the test set was this false alarm; no real invented number was found. |
+
+**Riskiest-assumption verdict:** assumptions 1 (the AI picks the right indicators) and 2 (no invented numbers) **hold** on this test set. Assumption 3 (users value the narrative) still needs the user feedback in Step 6.

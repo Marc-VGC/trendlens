@@ -114,7 +114,7 @@ npm run dev                  # http://localhost:3000
 - Annual, national-level indicators only; no forecasts or causal analysis.
 
 ## Roadmap (v2)
-See the GitHub issue [*"v2: Correlation view + PDF brief export"*](https://github.com/Marc-VGC/trendlens/issues). Draft: [docs/06-v2-issue.md](docs/06-v2-issue.md).
+See the GitHub issue [*"v2: Correlation view + PDF brief export"* (issue #1)](https://github.com/Marc-VGC/trendlens/issues/1). Draft: [docs/06-v2-issue.md](docs/06-v2-issue.md).
 
 ## Assignment deliverables
 | Phase | Deliverable | Where |
@@ -130,7 +130,7 @@ See the GitHub issue [*"v2: Correlation view + PDF brief export"*](https://githu
 | 4 | Monitoring | Vercel Analytics + Speed Insights (enabled), custom events, `[ask]` function logs |
 | 5 | Demo (2 min) | [Video on Google Drive](https://drive.google.com/file/d/167Z8AonDH-y4N9NSaKF3BjyNwjmdZ95D/view?usp=sharing) · script: [docs/04-demo-script.md](docs/04-demo-script.md) |
 | 5 | Reflection | [docs/05-reflection.md](docs/05-reflection.md) |
-| 5 | v2 issue | [GitHub issues](https://github.com/Marc-VGC/trendlens/issues) · draft: [docs/06-v2-issue.md](docs/06-v2-issue.md) |
+| 5 | v2 issue | [Issue #1](https://github.com/Marc-VGC/trendlens/issues/1) · draft: [docs/06-v2-issue.md](docs/06-v2-issue.md) |
 
 ---
 Data © World Bank, licensed CC BY 4.0. Built for AIM Graded Assignment 4.2 with AI-assisted coding (Claude Code).

@@ -1,6 +1,6 @@
 # Phase 1 — Idea Validation: TrendLens
 
-> **Before submitting:** steps 3, 6 and 7 need **my own evidence**. Replace every `TODO` with real notes (interviews with classmates, screenshots, survey results). Graders reward real evidence over polished prose.
+> **Evidence in this report:** desk research (Steps 3–4), **3 written user interviews** in which each person tried the live app (Steps 3, 6 and 7, verbatim answers in the [appendix](#appendix-interview-answers-verbatim)), and a **15-question test of the live app** (Step 7). Still to do: the chatbot fact-check (Step 3, row 4). The personas in Step 2 are hypotheses; [the interviews confirm some and reject others](#hypotheses-vs-interviews).
 
 ## Step 1 — Problem statement
 Business students, analysts and consultants regularly need **quick, credible cross-country comparisons** of development and economic indicators (GDP growth, inflation, internet adoption, ageing, renewable energy…) for reports, market-entry memos and class papers.
@@ -23,7 +23,7 @@ Generic AI chatbots answer in seconds, but they **make up or misremember numbers
 | **Not the user (v1)** | Professional economists who need econometrics, forecasts or high-frequency data |
 
 ### Hypothetical personas (not yet validated)
-> **These are illustrative personas, not interview results.** They describe who I expect the users to be and what I expect they need. Nothing below was said by a real person. The real evidence is the live test log in Step 7; interviews to confirm or reject these assumptions are still to do (Steps 3 and 6).
+> **These are illustrative personas, not interview results.** They describe who I expected the users to be and what I expected they need, written before any interviews. Nothing in the persona table was said by a real person. The real evidence is the interviews (Steps 3 and 6) and the live test log (Step 7); the [comparison below](#hypotheses-vs-interviews) shows which assumptions held.
 
 | | Priya: market research analyst | Daniel: economics graduate student | Ana: financial journalist |
 |---|---|---|---|
@@ -42,6 +42,18 @@ Generic AI chatbots answer in seconds, but they **make up or misremember numbers
 5. **Professionals or teams would pay** about US$10–30/month; students would not pay personally. *(Step 6)*
 6. The most-wanted next features are **chart export (PNG/PowerPoint)**, **more chart controls** (e.g. bar charts, nominal vs real GDP) and **adjustable insight style**. *(Input for the v2 issue)*
 
+#### Hypotheses vs interviews
+Results from the 3 interviews in Steps 3 and 6 (R1–R3). Three people is a small sample, so these are signals, not proof.
+
+| # | Hypothesis | Result | What the interviews showed |
+|---|---|---|---|
+| 1 | Comparisons take 1+ hours | **Partly supported (2 of 3)** | R2: World Bank data "took awhile like 2 weeks". R3: searching is fast, but compiling "takes most of the time". R1 gets data "quickly" from social media analytics. |
+| 2 | Users don't trust chatbot numbers without a source | **Rejected** | All 3 use AI for numbers and 2 trust it outright. R1 trusts it but checks; R2 did not check ChatGPT's numbers; R3: "if I cant trust it what can I trust?" The real problem is the opposite: people **rely on AI numbers without checking**, which is exactly the risk the verifier addresses, but users don't feel it as a pain. |
+| 3 | ✓ badges and sources increase trust | **Supported (3 of 3)** | All 3 said yes; R1 and R3 would still double-check elsewhere. |
+| 4 | Insights valued by professionals, less by students | **Partly supported** | 2 of 3 value the written insights (R1 "both", R3 for research); R2, a visual learner, decides from the chart and table. The professional-vs-student split can't be tested: R2 and R3 didn't state their roles. |
+| 5 | Professionals/teams pay about US$10–30/month | **Rejected on price, supported on intent** | 2 of 3 would pay, but **US$5–10/month**, below my assumed range. R2 would not pay: "I can do it for free." |
+| 6 | Most-wanted features: chart export, chart controls, insight style | **Rejected** | Nobody asked for these. **More data sources** came up twice (R1, R3) and a **choice of LLM** once (R3). R2 only wants it to stay free. |
+
 ### Why now
 1. **AI can finally plan, not just chat.** Current LLMs return schema-constrained structured output (JSON that matches a schema) reliably. That makes it practical to turn a plain-English question into a query plan that code can check against a catalog, which wasn't dependable a few model generations ago.
 2. **Students already ask chatbots first.** Generative AI is now a default research tool for students, so unverified, invented statistics end up in papers and memos.
@@ -55,14 +67,20 @@ Desk research:
 - Existing tools (World Bank DataBank, Our World in Data) are powerful but assume you already know which indicator you need, and they don't write an interpretation.
 - LLM hallucination of statistics is a well-documented problem. Universities increasingly ask students to verify AI-produced facts against primary sources.
 
-Primary evidence (**TODO: collect at least 3 rows; real evidence scores higher than polished prose**):
+Primary evidence: **3 written interviews, November 2026.** I sent each person the same 9 questions by message: 4 about how they work today, then they tried the live app, then 5 about the app. Answers are quoted exactly as written and anonymised as R1–R3 (the [appendix](#appendix-interview-answers-verbatim) has every answer).
 
-| # | Who (role, no full names needed) | Method | What they said / what happened | Takeaway |
+| # | Who | Method | What they said | Takeaway |
 |---|---|---|---|---|
-| 1 | `TODO` e.g. AIM classmate, MBA | 10-min chat: *"How long did your last country comparison take? Where did you get the data?"* | `TODO` | `TODO` |
-| 2 | `TODO` | Same question | `TODO` | `TODO` |
-| 3 | `TODO` | Chatbot check: ask ChatGPT/Claude *"What was New Zealand's inflation in 2022 and the Philippines' internet use in 2020?"* and compare with data.worldbank.org | `TODO` (how many numbers were wrong or uncited?) | `TODO` |
-| 4 | `TODO` professor / TA | *"What counts as an acceptable data source in this course?"* | `TODO` | `TODO` |
+| 1 | R1, market research analyst | Written interview + tried the live app | Compares countries "in a daily basis", using social media analytics, and gets the data "quickly". Uses AI for numbers: "Yes, I trust them. I did check to confirm though." Most annoying: "The uncertainty of the data". | A frequent user whose pain is **not knowing if the numbers are right**, not time. |
+| 2 | R2, uses World Bank data for project work (role not stated) | Same | About once a month. World Bank data "Took awhile like 2 weeks". "I used ChatGPT initially, I did not double check the numbers." Most annoying: "Waiting time, then the numbers are inconclusive." | Doing it by hand is **slow**, and the chatbot numbers went in **unchecked**: the risk TrendLens is built for. |
+| 3 | R3, does research (role not stated) | Same | "For research a lot of times everyday", via Google search: "Fast but I need to compile everything which takes most of the time." Uses Google's AI answers: "if I cant trust it what can I trust?" Most annoying: "Data is not updated." | **Compiling** is the time sink, and AI answers are trusted by default. |
+| 4 | Chatbot fact-check (me) | Ask ChatGPT/Claude *"What was New Zealand's inflation in 2022 and the Philippines' internet use in 2020?"* and compare with the World Bank (NZ 2022: 7.17%; Philippines 2020: 53.8%) | **Not done yet** | |
+
+**What this shows:**
+- **The problem is real, in two forms:** time (R2 took 2 weeks; R3 spends most of the time compiling) and uncertainty about the numbers (R1's "uncertainty", R2's "inconclusive").
+- **The surprise:** I assumed people distrust chatbot numbers. They don't: 2 of 3 trust them and 1 never checked. This makes automatic verification *more* necessary, because users won't check on their own, but it also means they don't go looking for a verification tool. The ✓ badges must make the value visible (3 of 3 said they raised trust).
+- **A gap TrendLens doesn't fix:** R3's "Data is not updated". World Bank data lag 1–2 years; TrendLens shows the latest year for each country and says so in caveats, but it can't make the data newer.
+- **Limitations:** 3 people I know personally, written answers, self-reported time, no observation. R2's and R3's roles weren't stated, and no student was confirmed among them, so the student segment is still untested.
 
 ## Step 4 — Existing alternatives
 | Alternative | Strength | Gap |
@@ -82,15 +100,20 @@ Primary evidence (**TODO: collect at least 3 rows; real evidence scores higher t
 5. **Shareable report:** charts, stats table, sources and a CSV download in one link.
 
 ## Step 6 — Market and willingness to pay
-- Every business school runs country-analysis assignments; every consultancy and bank produces country briefs. `TODO: number of business students at AIM / in NZ, if you can find it`
-- Possible model: free for students (limited reports per day), with paid team plans for consultancies (branded PDF export, more indicators). No payments in this assignment, per the brief.
-- `TODO: after people try the live app, ask 3 of them "Would you use this instead of DataBank + Excel? Would your team pay for it?" and record the answers here:`
+- Every business school runs country-analysis assignments; every consultancy and bank produces country briefs.
+- Possible model: free for students (limited reports per day), with a paid tier for analysts and teams. No payments in this assignment, per the brief.
+- After trying the live app, the 3 interviewees answered *"Would you use this instead of how you do it now?"* and *"Would you (or your school or company) pay for something like this? Roughly how much?"*:
 
-| Person | Would use instead of DataBank + Excel? | Would pay / team would pay? | Quote |
+| Person | Would use it instead of current method? | Would pay? | Quote |
 |---|---|---|---|
-| `TODO` | | | |
-| `TODO` | | | |
-| `TODO` | | | |
+| R1, market research analyst | **Yes**, but would still cross-check | **Yes, about US$5/month** | "I would use it, but I will still confirm the data to other AIs" |
+| R2 (World Bank data user) | **Yes** | **No** | "I would use it, because its free" · "No. I can do it for free." |
+| R3 (researcher) | **Yes**, alongside other sources | **Yes, about US$10/month** | "Yes, I needed this." |
+
+**Result:** 3 of 3 would use it; 2 of 3 would pay, at **US$5–10/month**. Pricing implications:
+- A **free tier is essential**. R2 uses it *because* it's free and would not pay.
+- A paid individual tier should sit around **US$5–10/month**, lower than the US$10–30 I assumed. Team plans are still unvalidated.
+- **What they'd change first:** more data sources besides the World Bank (R1, R3) and a choice of LLMs (R3). This feeds the v2 roadmap: IMF and OECD sources behind the same plan → fetch → stats → verify pipeline.
 
 ## Step 7 — Riskiest assumption and test
 | Riskiest assumption | Test | Success signal |
@@ -130,4 +153,39 @@ Each row links to the live report it produced, so the result can be checked. **A
 
 **Found → fixed → re-tested:** both issues came from running the app on real questions, were fixed the same week with unit tests (spec v1.3 and v1.4), and were re-checked on the live app.
 
-**Riskiest-assumption verdict:** assumptions 1 (the AI picks the right indicators) and 2 (no invented numbers) **hold** on this test set. Assumption 3 (users value the narrative) still needs the user feedback in Step 6.
+**Assumption 3 (users value the narrative):** I asked instead of showing two versions. After trying the app, the 3 interviewees answered *"Which is more useful to you: the chart and table alone, or with the written insights?"*
+
+| Person | Answer |
+|---|---|
+| R1 | "Both are very useful." |
+| R2 | "Im more of a visual learner, I see the chart and table and I can quickly decide" |
+| R3 | "The written insigths is good for my research" |
+
+**2 of 3 value the insights**, which meets the ≥ 2/3 signal. It is a weak pass: the method was a question rather than a side-by-side comparison, and the sample is 3. The chart and table must stay strong on their own for people like R2.
+
+**Riskiest-assumption verdict:**
+- **Assumptions 1 and 2 hold** on this test set: the AI picks the right indicators, and no invented numbers were found.
+- **Assumption 3 holds weakly**, 2 of 3.
+- **The interviews changed one belief.** Users already trust AI numbers, so verification has to be shown, not sold. That is why the ✓ badges and verification rate are on every report.
+
+## Appendix: interview answers (verbatim)
+Written answers to the interview guide, November 2026, quoted exactly as written (spelling included). Names removed.
+
+**Before trying the app**
+
+| Question | R1 (market research analyst) | R2 | R3 |
+|---|---|---|---|
+| 1. When did you last compare countries or economic data? | "As a Market Research Analyst I capture data to compare other countries in a daily basis." | "I used it on my last project, I got the data from world bank. I think once a month." | "For research a lot of times everyday." |
+| 2. Where did you get the data, and roughly how long did it take? | "Social Media analytics, I get the data quickly." | "World bank data. Took awhile like 2 weeks." | "Google search. Fast but I need to compile everything which takes most of the time." |
+| 3. Have you used ChatGPT or a similar AI for numbers like these? Did you trust them? Did you check them? | "Yes, I trust them. I did check to confirm though." | "I used ChatGPT initially, I did not double check the numbers." | "I just used the default Google AI in search, if I cant trust it what can I trust?" |
+| 4. What was the most annoying part of the process? | "The uncertainty of the data" | "Waiting time, then the numbers are inconclusive." | "Data is not updated." |
+
+**After trying https://trendlens-neon.vercel.app**
+
+| Question | R1 | R2 | R3 |
+|---|---|---|---|
+| 5. Would you use this instead of how you do it now? Why or why not? | "I would use it, but I will still confirm the data to other AIs" | "I would use it, because its free" | "I would use it and also add information from other sources of data" |
+| 6. Did the ✓ verified badges change how much you trust the numbers? | "yes" | "yes" | "yes but I still double check" |
+| 7. Chart and table alone, or with the written insights? | "Both are very useful." | "Im more of a visual learner, I see the chart and table and I can quickly decide" | "The written insigths is good for my research" |
+| 8. Would you (or your school or company) pay for something like this? Roughly how much? | "Yes. A Subscription of 5$ a month I think." | "No. I can do it for free." | "Yes, I needed this. !0$ a month" *(US$10)* |
+| 9. What's missing, or what would you change first? | "Are there any other sources of data aside from world bank?" | "If it is free im good with it." | "Aditional LLMs to choose from. Also additional sources of data." |

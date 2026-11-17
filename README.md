@@ -108,6 +108,14 @@ npm run dev                  # http://localhost:3000
 - **97.7%** of AI-written numbers verified on the first pass, with no invented number found
 - **2 issues found → fixed → re-tested:** a misleading CAGR shown for rate indicators like inflation ([spec v1.3](spec.md#v13-after-live-testing)), and false alarms on numbers from indicator names such as *65+* and *under-5* ([spec v1.4](spec.md#v14-after-the-full-15-question-test-log)). After both fixes, all 14 reports verify at 100%.
 
+## What users said
+3 people tried the live app and answered a written interview ([answers and analysis](docs/01-idea-validation.md#hypotheses-vs-interviews)):
+- **3 of 3** would use it, and **3 of 3** said the ✓ verified badges raised their trust in the numbers.
+- **2 of 3** value the written insights; one prefers the chart and table.
+- **2 of 3** would pay, at **US$5–10/month**; one would only use it free.
+- **Most requested:** more data sources besides the World Bank (2 of 3).
+- **The surprise:** 2 of 3 already trust AI numbers, and one never checked them. Verification has to be built in and visible, because users won't check on their own.
+
 ## Limitations
 - World Bank data lags by 1–2 years and is sometimes revised (the example report shows one such revision in its caveats).
 - The verifier checks that numbers *exist in the data*, not that every sentence is a fair interpretation.
@@ -120,7 +128,7 @@ See the GitHub issue [*"v2: Correlation view + PDF brief export"* (issue #1)](ht
 | Phase | Deliverable | Where |
 |---|---|---|
 | 4 | Live app | https://trendlens-neon.vercel.app |
-| 1 | 7-step idea validation (with *why now*) | [docs/01-idea-validation.md](docs/01-idea-validation.md) |
+| 1 | 7-step idea validation (with *why now*, 3 user interviews and a 15-question live test) | [docs/01-idea-validation.md](docs/01-idea-validation.md) |
 | 1 | 1-page PRD | [docs/02-prd.md](docs/02-prd.md) |
 | 2 | Architecture notes | [docs/03-architecture.md](docs/03-architecture.md) |
 | 2 | spec.md + revision history | [spec.md](spec.md) |

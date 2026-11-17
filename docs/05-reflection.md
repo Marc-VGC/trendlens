@@ -13,6 +13,8 @@ I built TrendLens with Claude Code as my coding agent. Writing the spec and `CLA
 - **Deployment taught me the most.** The first Vercel build failed because the Clerk key was missing at build time. Vercel then warned about the `NEXT_PUBLIC_` prefix. Next, every page failed with a middleware error, because the "Quick copy" panel I had copied keys from had the secret key commented out. The lesson: when a deploy fails, check the environment variables first.
 - **Testing found real issues.** I ran 15 questions on the live app: 15/15 sensible plans and 97.7% of numbers verified. It exposed two problems. The stats table showed a "compound growth rate" *of inflation*, which is misleading. And the verifier flagged numbers that belong to an indicator's name, like "65" in *aged 65+*. I fixed both with unit tests and re-tested them live. All 14 reports now verify at 100%.
 
+- **Users corrected my assumptions.** Three people tried the app and answered a written interview. I had assumed people distrust chatbot numbers. Two of three trust them, and one never checked them at all. That made the verifier more important, not less, because users won't check on their own. All three said the ✓ badges raised their trust. Two would pay, but US$5–10 a month rather than the US$10–30 I guessed. Nobody asked for the export features I had imagined; two asked for more data sources.
+
 ## Trade-offs
 - **32 curated indicators, not all of WDI:** less coverage, but the AI can't pick a code that doesn't exist.
 - **Two AI calls, not one:** more cost and latency, but the narrative is grounded in computed numbers.
@@ -23,4 +25,4 @@ I built TrendLens with Claude Code as my coding agent. Writing the spec and `CLA
 "Verified" means a number exists in the data, not that every sentence interprets it fairly. Readers could also mistake correlation for causation, so the prompt forbids causal claims and the UI repeats that insights describe patterns, not causes. The daily quota limits cost abuse.
 
 ## What I'd do next (v2)
-My GitHub issue proposes a correlation view (for example, internet use vs income across countries) and a one-page PDF brief. The example report already puts internet access next to income, so the natural follow-up is whether they move together. The PDF brief removes the step of screenshotting charts into a paper.
+My GitHub issue proposes a correlation view (for example, internet use vs income across countries) and a one-page PDF brief. The example report already puts internet access next to income, so the natural follow-up is whether they move together. The PDF brief removes the step of screenshotting charts into a paper. The interviews added a clearer priority: more data sources (IMF, OECD) behind the same plan → fetch → stats → verify pipeline, so the verifier keeps working whatever the source.

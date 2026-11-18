@@ -115,6 +115,7 @@ npm run dev                  # http://localhost:3000
 - **2 of 3** would pay, at **US$5–10/month**; one would only use it free.
 - **Most requested:** more data sources besides the World Bank (2 of 3).
 - **The surprise:** 2 of 3 already trust AI numbers, and one never checked them. Verification has to be built in and visible, because users won't check on their own.
+- **Chatbot fact-check:** asked in a new chat, ChatGPT got both test figures right (New Zealand inflation 2022, Philippines internet use 2020) but [cited no source](docs/evidence/chatbot-fact-check.png). TrendLens adds what a paper needs: the source, the retrieval date and a check on every number.
 
 ## Limitations
 - World Bank data lags by 1–2 years and is sometimes revised (the example report shows one such revision in its caveats).
